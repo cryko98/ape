@@ -348,6 +348,15 @@
 
   // ---------- Loader + intro ----------
   function setupLoader() {
+    if (new URLSearchParams(location.search).has('og')) {
+      // OG screenshot mode: no loader, instant intro, clean frame
+      document.body.classList.add('is-og');
+      $('#loader').remove();
+      gsap.globalTimeline.timeScale(40);
+      intro();
+      setTimeout(() => gsap.globalTimeline.timeScale(1), 1500);
+      return;
+    }
     document.body.classList.add('is-loading');
     const bar = $('#loaderBar'), pct = $('#loaderPct'), loader = $('#loader');
     const o = { v: 0 };

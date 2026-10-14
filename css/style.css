@@ -490,3 +490,12 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: non
   .lore__char { padding-top: 56px; }
   .lore__bubble { right: 0; font-size: 15px; }
 }
+
+/* OG screenshot mode */
+body.is-og .cursor, body.is-og .hero__scroll, body.is-og .hero__hint, body.is-og .noise { display: none !important; }
+body.is-og .hero { min-height: 630px; padding-top: 96px; padding-bottom: 40px; }
+body.is-og .flash, body.is-og .hero__stats, body.is-og .hero__actions { display: none !important; }
+body.is-og .hero__title { font-size: 84px; margin-bottom: 18px; }
+body.is-og .hero__sub { font-size: 16px; margin-bottom: 18px; }
+body.is-og .hero__char { height: 500px; }
+body.is-og .hero__inner { align-items: center; }
