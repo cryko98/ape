@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "ape-site", "runtimeExecutable": "npx", "runtimeArgs": ["-y", "serve", "-l", "5173", "."], "port": 5173 }
+    { "name": "ape-site", "runtimeExecutable": "npx", "runtimeArgs": ["-y", "serve", "-l", "5173", "."], "port": 5173 },
+    { "name": "ape-dev-api", "runtimeExecutable": "node", "runtimeArgs": ["C:/Users/Patrik/AppData/Local/Temp/claude/C--Users-Patrik-Desktop-Websites-ape/912cd5be-5235-4d16-a128-a708b853744f/scratchpad/dev-server.js"], "port": 5174 }
   ]
 }

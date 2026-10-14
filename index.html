@@ -26,6 +26,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/terminal.css" />
 </head>
 <body>
 
@@ -59,7 +60,8 @@
       <a href="#lore" data-cursor="LORE"><span>01</span> LORE</a>
       <a href="#character" data-cursor="DEGEN"><span>02</span> THE APE</a>
       <a href="#cycle" data-cursor="LOOP"><span>03</span> THE CYCLE</a>
-      <a href="#community" data-cursor="JOIN"><span>04</span> APE ARMY</a>
+      <a href="#terminal" data-cursor="WATCH"><span>04</span> TRENCHES</a>
+      <a href="#community" data-cursor="JOIN"><span>05</span> APE ARMY</a>
     </nav>
     <div class="nav__cta">
       <a class="btn btn--ghost btn--x" id="xLinkNav" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW" aria-label="X / Twitter">
@@ -240,6 +242,107 @@
       </div>
     </section>
 
+    <!-- TERMINAL -->
+    <section class="section term-section" id="terminal">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title"><span class="glitch" data-text="WATCH THE TRENCHES">WATCH THE TRENCHES</span></h2>
+        <span class="section__kicker">live pump.fun trenches // he apes. you watch.</span>
+      </div>
+
+      <div class="term" id="term">
+        <div class="term__bar">
+          <div class="term__brand"><img src="/assets/logo.webp" alt="" /><span>THE TRENCHES</span><small>LIVE</small></div>
+          <div class="term__status" id="termStatus"><i></i><span>CONNECTING</span></div>
+          <label class="term__search"><span class="mono" style="color:var(--t-muted)">⌕</span><input id="termSearch" type="search" placeholder="search name, ticker or paste a mint" autocomplete="off" /></label>
+          <div class="term__meta">
+            <span>SOL <b id="termSol">—</b></span>
+            <span>BALANCE <b id="termBal">—</b></span>
+            <span>EQUITY <b id="termEq">—</b></span>
+          </div>
+        </div>
+
+        <div class="term__mtabs" id="termMtabs">
+          <button class="is-active" data-col="left">FEED</button>
+          <button data-col="center">CHART</button>
+          <button data-col="right">THE APE</button>
+        </div>
+
+        <div class="term__grid">
+          <!-- LEFT: feed -->
+          <div class="term__col term__col--left is-mobile-active" data-col="left">
+            <div class="ttabs" id="feedTabs">
+              <button class="ttab is-active" data-feed="new">NEW PAIRS</button>
+              <button class="ttab" data-feed="active">CLIMBING</button>
+              <button class="ttab" data-feed="grad">GRADUATED</button>
+              <button class="ttab" data-feed="watch">🦍 WATCHING</button>
+            </div>
+            <div class="feed" id="feed"><div class="feed__empty">waiting for the chain…</div></div>
+          </div>
+
+          <!-- CENTER: chart -->
+          <div class="term__col term__col--center" data-col="center">
+            <div class="chead" id="chead">
+              <div class="chead__img" id="cheadImg">?</div>
+              <div>
+                <div class="chead__title"><b id="cheadName">waiting for the ape to pick one</b><span id="cheadSym"></span></div>
+                <div class="chead__mint" id="cheadMint"></div>
+              </div>
+              <div class="chead__stats">
+                <div><span>MCAP</span><b id="cheadMcap">—</b></div>
+                <div><span>PRICE</span><b id="cheadPrice">—</b></div>
+                <div><span>ATH</span><b id="cheadAth">—</b></div>
+              </div>
+            </div>
+            <div class="cprog"><span>BONDING CURVE</span><div class="cprog__bar"><i id="cprogBar"></i></div><b id="cprogPct">0%</b></div>
+            <div class="chart" id="chart">
+              <div class="chart__tf" id="chartTf"><button data-tf="15">15s</button><button data-tf="60" class="is-active">1m</button><button data-tf="300">5m</button><span class="chart__lbl">MARKET CAP · USD</span></div>
+              <div class="chart__empty" id="chartEmpty">SELECT A COIN<br/>real market cap history, live from the chain</div>
+            </div>
+            <div class="trades">
+              <div class="trades__head"><span>TIME</span><span>TYPE</span><span>SOL</span><span>TOKENS</span><span>MCAP</span><span>TRADER</span></div>
+              <div class="trades__body" id="tradesBody"></div>
+            </div>
+          </div>
+
+          <!-- RIGHT: the ape's desk (he trades, you watch) -->
+          <div class="term__col term__col--right" data-col="right">
+            <div class="desk">
+              <div class="pf__head">
+                <div class="pf__ape" id="pfApe">
+                  <img src="/assets/ape-3-chair.webp" alt="" data-mood="watch" class="is-active" />
+                  <img src="/assets/ape-1-arms-crossed.webp" alt="" data-mood="up" />
+                  <img src="/assets/ape-2-jump.webp" alt="" data-mood="moon" />
+                  <img src="/assets/ape-4-point.webp" alt="" data-mood="rekt" />
+                </div>
+                <div class="pf__say"><small id="dkState">HUNTING</small><span id="pfSay">scanning new pairs…</span></div>
+              </div>
+              <div class="desk__pnl">
+                <div><span>SESSION PNL</span><b id="dkPnl" class="mono">—</b><i id="dkPnlPct" class="mono">—</i></div>
+                <canvas id="dkEquity" width="300" height="54"></canvas>
+              </div>
+              <div class="pf__nums">
+                <div><span>EQUITY</span><b id="dkEq">—</b></div>
+                <div><span>WIN RATE</span><b id="dkWin">—</b></div>
+                <div><span>OPEN</span><b id="dkOpen">0/4</b></div>
+                <div><span>FILLS</span><b id="dkTx">0</b></div>
+              </div>
+              <div class="ttabs" id="dkTabs">
+                <button class="ttab is-active" data-dk="positions">POSITIONS</button>
+                <button class="ttab" data-dk="watch">WATCHING</button>
+                <button class="ttab" data-dk="tape">TAPE</button>
+                <button class="ttab" data-dk="stream">STREAM</button>
+              </div>
+              <div class="pf__list" id="dkList"></div>
+              <div class="pf__foot"><span id="dkFoot">desk open</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="term__toast" id="termToast"><img src="/assets/logo.webp" alt="" /><span id="termToastTxt"></span></div>
+      </div>
+    </section>
+
     <!-- COMMUNITY CTA -->
     <section class="cta section" id="community">
       <div class="cta__bg" aria-hidden="true"></div>
@@ -282,6 +385,9 @@
 
   <script src="/js/vendor/gsap.min.js"></script>
   <script src="/js/vendor/ScrollTrigger.min.js"></script>
+  <script src="/js/vendor/lightweight-charts.js"></script>
+  <script src="/core.js"></script>
   <script src="/js/main.js" defer></script>
+  <script src="/js/terminal.js" defer></script>
 </body>
 </html>
