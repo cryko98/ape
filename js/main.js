@@ -397,7 +397,7 @@
       <article class="panel ${p.mod ? 'panel--' + p.mod : ''}" data-n="${p.n}">
         <div class="panel__tag"><span>${p.tag}</span><span>${p.n} / 05</span></div>
         <div class="panel__img"><img src="${POSES[p.pose].src}" width="${POSES[p.pose].w}" height="${POSES[p.pose].h}" alt="${p.title}" loading="lazy" /></div>
-        <div><h3 class="panel__title">${p.title}</h3><p class="panel__desc">${p.desc}</p></div>
+        <div class="panel__text"><h3 class="panel__title">${p.title}</h3><p class="panel__desc">${p.desc}</p></div>
       </article>`).join('') + `
       <article class="panel panel--repeat" data-n="05">
         <div><img src="/assets/logo.webp" alt="" width="120" height="120" /><h3 class="panel__title">REPEAT<small>FOREVER // $APE</small></h3></div>

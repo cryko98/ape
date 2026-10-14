@@ -467,8 +467,9 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: non
 }
 .panel::before { content: attr(data-n); position: absolute; right: 18px; bottom: -14px; font-family: var(--font-display); font-weight: 900; font-size: 140px; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(141,255,31,.2); pointer-events: none; }
 .panel__tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: .3em; color: var(--neon); display: flex; justify-content: space-between; }
-.panel__img { position: relative; display: grid; place-items: center; min-height: 0; }
-.panel__img img { max-height: 100%; width: auto; filter: drop-shadow(0 0 22px rgba(141,255,31,.4)); transform: scale(.92); transition: transform .6s var(--ease); }
+.panel__img { position: relative; display: grid; place-items: center; min-height: 0; overflow: hidden; }
+.panel__img img { height: 100%; max-height: 100%; width: auto; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 22px rgba(141,255,31,.4)); transform: scale(.92); transition: transform .6s var(--ease); }
+.panel__text { position: relative; z-index: 2; margin: -40px -22px -22px; padding: 44px 22px 22px; background: linear-gradient(to top, rgba(4,7,5,.96) 55%, rgba(4,7,5,0)); }
 .panel.is-in .panel__img img { transform: scale(1); }
 .panel__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 3.2vw, 40px); color: #fff; line-height: 1; margin: 0; }
 .panel__desc { margin: 6px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; color: var(--muted); }
