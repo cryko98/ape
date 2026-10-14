@@ -499,3 +499,15 @@ body.is-og .hero__title { font-size: 84px; margin-bottom: 18px; }
 body.is-og .hero__sub { font-size: 16px; margin-bottom: 18px; }
 body.is-og .hero__char { height: 500px; }
 body.is-og .hero__inner { align-items: center; }
+
+/* no-GSAP static fallback: everything visible without animation */
+.no-gsap .hero__line > span { transform: none; }
+.no-gsap .reveal, .no-gsap .hero__tag, .no-gsap .hero__hint, .no-gsap .lore__bubble, .no-gsap .how__ticker span { opacity: 1; transform: none; }
+.no-gsap .cursor { display: none; }
+.no-gsap .cycle__pin { height: auto; }
+.no-gsap .cycle__track { flex-wrap: wrap; justify-content: center; padding-top: 180px; padding-bottom: 60px; }
+.no-gsap .cycle__head { top: 60px; }
+.no-gsap .panel__img img { transform: none; }
+.no-gsap .stats .stat__bar i { transform: scaleX(1); }
+.no-gsap .marquee__track { animation: marquee 22s linear infinite; }
+@keyframes marquee { to { transform: translateX(-50%); } }

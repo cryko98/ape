@@ -16,8 +16,18 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+  // ---------- Failsafe: never leave the user stuck on the loader ----------
+  const killLoader = () => { const l = $('#loader'); if (l) l.remove(); document.body.classList.remove('is-loading'); };
+  setTimeout(killLoader, 6000);
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    document.documentElement.classList.add('no-gsap');
+    document.addEventListener('DOMContentLoaded', () => { killLoader(); try { setupLinksStatic(); } catch (e) {} });
+    console.warn('GSAP missing: running static fallback');
+    return;
+  }
   gsap.registerPlugin(ScrollTrigger);
 
+  function setupLinksStatic() { setupLinks(); }
   // ---------- Links / CA ----------
   const toast = $('#toast');
   let toastT;
@@ -460,10 +470,9 @@
 
   // ---------- Init ----------
   document.addEventListener('DOMContentLoaded', () => {
-    setupLinks(); setupCursor(); setupNav(); setupGlitch();
-    setupCandles(); setupParticles(); setupHeroChar();
-    setupCounters(); setupReveals(); setupTerminal(); setupPoses(); setupTilt(); setupMarquee();
-    setupCycle(); setupBurst(); setupScramble();
-    setupLoader();
+    [setupLinks, setupCursor, setupNav, setupGlitch, setupCandles, setupParticles, setupHeroChar,
+     setupCounters, setupReveals, setupTerminal, setupPoses, setupTilt, setupMarquee,
+     setupCycle, setupBurst, setupScramble].forEach(fn => { try { fn(); } catch (e) { console.error(fn.name, e); } });
+    try { setupLoader(); } catch (e) { console.error('loader', e); killLoader(); }
   });
 })();
