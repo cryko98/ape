@@ -42,8 +42,8 @@ Pushing to `main` deploys on Vercel. Optional environment variables:
 
 1. **Scan** — new launches, coins climbing the bonding curve, fresh graduates. Only coins above $6K market cap are on the board.
 2. **Score** — momentum over 1 and 3 minutes (sampled market caps), trades happening right now, curve progress sweet spot, age, replies, livestream, name quality.
-3. **Veto** — dead (< $6K), too big (> $500K), already +150% in 3 minutes, no trade for 5 minutes, dumping, non-ascii names.
-4. **Enter** — score ≥ 58, at most 4 open, 8–14% of equity per clip, sized to the pool so impact stays under 3%, one entry per 15s, no rebuy for 8 minutes (16 after a loss), four losses in a row pauses him for 5 minutes.
-5. **Exit** — scale out 40% at +17.5%, bank 60% at +35% and trail the runner 20% under its high, profit locks behind the peak, stop −22%, time stop at 18 minutes under +5%, a one-tick −55% drop is a rug.
+3. **Veto** — dead (< $6K), too big (> $500K), already +100% in 3 minutes, no trade for 5 minutes, dumping, non-ascii names.
+4. **Enter** — score ≥ 62, at most 4 open, 8–14% of equity per clip, sized to the pool so impact stays under 3%, one entry per 15s, no rebuy for 8 minutes (16 after a loss), four losses in a row pauses him for 5 minutes.
+5. **Exit** — scale out 40% at +20%, bank 60% at +40% and trail the runner 20% under its high, profit locks behind the peak, stop −14%, time stop at 12 minutes under +5%, a one-tick −55% drop is a rug.
 
-The rulebook is `RULES` in `core.js`. One session is one UTC day; the wallet resets to 10 SOL at midnight and the day goes into the archive.
+The rulebook is `RULES` in `core.js`. The numbers were tuned by backtesting this same core on real pump.fun candle history (15s and 1m, ~130 coins): the first cut lost on both sets, the tuned book was positive on both. That is evidence, not a promise — the trenches are a real market and losing sessions happen. One session is one UTC day; the wallet resets to 10 SOL at midnight and the day goes into the archive.

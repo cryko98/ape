@@ -34,17 +34,19 @@ var RULES = {
   MIN_MCAP_USD:   6000,     // under this it is not on the board at all
   MAX_MCAP_USD:   500000,   // above this it is not a lowcap any more
   MAX_AGE_H:      24,
-  MAX_MOVE_3M:    150,      // +150% in 3 minutes is somebody else's exit
+  MIN_AGE_MIN:    0,        // never buy a coin younger than this (0 = off)
+  REQUIRE_M1:     0,        // 1 = only buy when the last minute is green
+  MAX_MOVE_3M:    100, // +100% in 3 minutes is somebody else's exit (backtested)
   DEAD_AFTER_MS:  5 * 60000,// no trade for 5 min = nobody home
 
-  TARGET_PCT:     35,
+  TARGET_PCT:     40, // backtested on real 15s and 1m pump.fun candles
   SCALE_AT:       0.5,      // scale out at half the target...
   SCALE_PORTION:  0.4,      // ...selling this much
   BANK_PORTION:   0.6,      // at the target, bank this much of the rest
   RUNNER_CAP:     2.2,      // the runner is cut at target × this
   TRAIL_PCT:      20,       // trail under the high once banked
-  STOP_PCT:      -22,
-  TIME_STOP_MIN:  18,
+  STOP_PCT:       -14,
+  TIME_STOP_MIN:  12,
   TIME_STOP_GAIN: 5,        // a position under this gain at the time stop is dead money
   RUG_DROP:       0.55,     // one tick down this much = rug, out
 
@@ -52,7 +54,7 @@ var RULES = {
   LOSS_STREAK:    4,
   PAUSE_MIN:      5,
   AUTO_GAP_MS:    15000,
-  SCORE_BUY:      58,
+  SCORE_BUY:      62, // pickier entries: the single biggest edge in the backtest
   SWAP_FEE:       0.01,
   STALE_MARK_MS:  10 * 60000,
   LLM_INTERVAL_MS: 40000
@@ -150,9 +152,11 @@ function veto(book, ctx, c) {
   if (usd < RULES.MIN_MCAP_USD) return 'dead (' + fmtUsd(usd) + ')';
   if (usd > RULES.MAX_MCAP_USD) return 'too big';
   var age = ageMin(c, ctx.now); if (age !== null && age > RULES.MAX_AGE_H * 60) return 'old';
+  if (age !== null && age < RULES.MIN_AGE_MIN) return 'too fresh';
   if (c.lastTrade && ctx.now - c.lastTrade > RULES.DEAD_AFTER_MS) return 'nobody home';
   var m3 = changeOver(book, c.mint, ctx.now, 180000); if (m3 !== null && m3 > RULES.MAX_MOVE_3M) return 'already ran ' + sgn(m3, 0);
   if (m3 !== null && m3 < -40) return 'dumping';
+  if (RULES.REQUIRE_M1) { var m1 = changeOver(book, c.mint, ctx.now, 60000); if (m1 === null || m1 <= 0) return 'no 1m momentum'; }
   if (!ascii(c.name)) return 'name';
   return null;
 }
