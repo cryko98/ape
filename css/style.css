@@ -21,7 +21,7 @@
 }
 
 *,*::before,*::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 body {
   margin: 0;
   background: var(--bg);
@@ -319,7 +319,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: non
 .terminal__bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.15); }
 .terminal__bar i:first-child { background: var(--pink); } .terminal__bar i:nth-child(2) { background: #ffd23f; } .terminal__bar i:nth-child(3) { background: var(--neon); }
 .terminal__bar span { margin-left: auto; }
-.terminal__body { margin: 0; padding: 18px; font-family: var(--font-mono); font-size: 14px; line-height: 1.7; color: var(--neon); white-space: pre-wrap; min-height: 150px; }
+.terminal__body { margin: 0; padding: 18px; font-family: var(--font-mono); font-size: 14px; line-height: 1.7; color: var(--neon); white-space: pre-wrap; min-height: 252px; }
 .terminal__body .cur { display: inline-block; width: 8px; height: 16px; background: var(--neon); vertical-align: -2px; animation: blink .8s steps(2) infinite; }
 .terminal__body .dim { color: var(--muted); }
 .terminal__body .hot { color: #fff; text-shadow: var(--neon-glow); }
@@ -511,3 +511,7 @@ body.is-og .hero__inner { align-items: center; }
 .no-gsap .stats .stat__bar i { transform: scaleX(1); }
 .no-gsap .marquee__track { animation: marquee 22s linear infinite; }
 @keyframes marquee { to { transform: translateX(-50%); } }
+
+/* reserve space for lazily loaded character art so the pinned cycle never drifts */
+.lore__char { min-height: 60vh; }
+.char__viewer { min-height: min(80vh, 780px); }

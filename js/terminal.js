@@ -49,7 +49,7 @@
     while (metaBusy < 3 && metaQueue.length) {
       const c = metaQueue.shift(); metaBusy++;
       try {
-        let j; try { const r = await fetch(ipfs(c.uri), { signal: AbortSignal.timeout(8000) }); if (!r.ok) throw 0; j = await r.json(); }
+        let j; const direct = ipfs(c.uri); try { if (!direct.startsWith(GW)) throw 0; const r = await fetch(direct, { signal: AbortSignal.timeout(8000) }); if (!r.ok) throw 0; j = await r.json(); }
         catch (e1) { const r2 = await fetch('/api/meta?u=' + encodeURIComponent(c.uri), { signal: AbortSignal.timeout(10000) }); j = await r2.json(); if (j.error) throw 0; }
         c.image = ipfs(j.image || ''); c.desc = c.desc || j.description || ''; rerenderCoin(c.mint);
       } catch (e) {} finally { metaBusy--; }

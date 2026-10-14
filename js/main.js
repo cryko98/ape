@@ -121,7 +121,16 @@
     const onScroll = () => nav.classList.toggle('is-scrolled', scrollY > 30);
     addEventListener('scroll', onScroll, { passive: true }); onScroll();
     burger.addEventListener('click', () => nav.classList.toggle('is-open'));
-    $$('.nav__links a').forEach(a => a.addEventListener('click', () => nav.classList.remove('is-open')));
+    $('.nav__links a').forEach(a => a.addEventListener('click', () => nav.classList.remove('is-open')));
+    // smooth anchor scrolling in JS (CSS scroll-behavior:smooth is off: it breaks ScrollTrigger pins)
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]'); if (!a) return;
+      const id = a.getAttribute('href').slice(1); const el = id ? document.getElementById(id) : document.body; if (!el) return;
+      e.preventDefault();
+      const top = id === 'top' ? 0 : el.getBoundingClientRect().top + scrollY - 70;
+      window.scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', '#' + id);
+    });
   }
 
   // ---------- Candles canvas ----------
@@ -429,6 +438,21 @@
     panels.forEach(p => ScrollTrigger.create({ trigger: p, containerAnimation: tween, start: 'left 80%', end: 'right 20%', toggleClass: 'is-in' }));
   }
 
+  // ---------- Keep pinned sections honest ----------
+  // ScrollTrigger measures once; anything above the pinned section that changes height
+  // later (fonts, lazy images, the typewriter, the live desk) makes the pin land in the
+  // wrong place and slide over the hero. So: re-measure whenever the page changes height.
+  function setupRefresh() {
+    ScrollTrigger.config({ ignoreMobileResize: true });
+    let t; let lastH = document.documentElement.scrollHeight;
+    const refresh = () => { clearTimeout(t); t = setTimeout(() => { ScrollTrigger.refresh(); lastH = document.documentElement.scrollHeight; }, 250); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
+    addEventListener('load', refresh);
+    $$('img').forEach(img => { if (!img.complete) img.addEventListener('load', refresh, { once: true }); });
+    if ('ResizeObserver' in window) new ResizeObserver(() => { const h = document.documentElement.scrollHeight; if (Math.abs(h - lastH) > 2) refresh(); }).observe(document.body);
+    setTimeout(refresh, 1500); setTimeout(refresh, 4000);
+  }
+
   // ---------- Click burst (anywhere) ----------
   const BURST_GLYPHS = ['$', '▲', '◆', 'APE', '🦍', '+'];
   function spawnBurst(x, y, txt) {
@@ -472,7 +496,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     [setupLinks, setupCursor, setupNav, setupGlitch, setupCandles, setupParticles, setupHeroChar,
      setupCounters, setupReveals, setupTerminal, setupPoses, setupTilt, setupMarquee,
-     setupCycle, setupBurst, setupScramble].forEach(fn => { try { fn(); } catch (e) { console.error(fn.name, e); } });
+     setupCycle, setupRefresh, setupBurst, setupScramble].forEach(fn => { try { fn(); } catch (e) { console.error(fn.name, e); } });
     try { setupLoader(); } catch (e) { console.error('loader', e); killLoader(); }
   });
 })();
