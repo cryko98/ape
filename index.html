@@ -55,9 +55,8 @@
     <nav class="nav__links">
       <a href="#lore" data-cursor="LORE"><span>01</span> LORE</a>
       <a href="#character" data-cursor="DEGEN"><span>02</span> THE APE</a>
-      <a href="#pump" data-cursor="PLAY"><span>03</span> PUMP IT</a>
-      <a href="#tokenomics" data-cursor="NUMBERS"><span>04</span> TOKENOMICS</a>
-      <a href="#how" data-cursor="APE IN"><span>05</span> HOW TO APE</a>
+      <a href="#cycle" data-cursor="LOOP"><span>03</span> THE CYCLE</a>
+      <a href="#community" data-cursor="JOIN"><span>04</span> APE ARMY</a>
     </nav>
     <div class="nav__cta">
       <a class="btn btn--ghost btn--x" id="xLinkNav" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW" aria-label="X / Twitter">
@@ -113,8 +112,8 @@
 
           <div class="hero__stats">
             <div><b data-count="100">0</b><span>x MINDSET</span></div>
-            <div><b data-count="0">0</b><span>% TAX</span></div>
-            <div><b data-count="1">0</b><span>B SUPPLY</span></div>
+            <div><b data-count="0">0</b><span>HOURS SLEPT</span></div>
+            <div><b data-count="1">0</b><span>RULE: APE</span></div>
           </div>
         </div>
 
@@ -229,153 +228,12 @@
     <section class="cycle" id="cycle">
       <div class="cycle__pin" id="cyclePin">
         <div class="cycle__head">
-          <span class="section__num">02.5</span>
+          <span class="section__num">03</span>
           <h2 class="section__title"><span class="glitch" data-text="THE CYCLE">THE CYCLE</span></h2>
           <span class="section__kicker">scroll → every degen's life, on loop</span>
         </div>
         <div class="cycle__track" id="cycleTrack"></div>
         <div class="cycle__progress"><i id="cycleBar"></i></div>
-      </div>
-    </section>
-
-    <!-- PUMP IT (mini game) -->
-    <section class="pump section" id="pump">
-      <div class="section__head">
-        <span class="section__num">03</span>
-        <h2 class="section__title"><span class="glitch" data-text="PUMP IT">PUMP IT</span></h2>
-        <span class="section__kicker">tap. send. don't stop. he reacts.</span>
-      </div>
-
-      <div class="pump__grid">
-        <div class="pump__panel">
-          <div class="pump__price">
-            <span class="pump__label">$APE / USD</span>
-            <b id="pumpPrice">$0.0000001</b>
-            <span class="pump__chg" id="pumpChg">▲ 0.00%</span>
-          </div>
-          <div class="pump__row">
-            <div class="pump__stat"><span>MCAP</span><b id="pumpMcap">$100</b></div>
-            <div class="pump__stat"><span>COMBO</span><b id="pumpCombo">x1</b></div>
-            <div class="pump__stat"><span>ATH</span><b id="pumpAth">$0</b></div>
-          </div>
-          <canvas class="pump__chart" id="pumpChart" width="600" height="180"></canvas>
-          <div class="pump__hype"><span>HYPE</span><div class="pump__hypebar"><i id="pumpHype"></i></div></div>
-          <button class="pumpbtn" id="pumpBtn" data-cursor="SEND IT">
-            <span class="pumpbtn__ring"></span>
-            <span class="pumpbtn__txt">PUMP</span>
-          </button>
-          <p class="pump__note" id="pumpNote">tap PUMP. nothing can go wrong.</p>
-        </div>
-
-        <div class="pump__char" id="pumpChar">
-          <div class="pump__shout" id="pumpShout">LFG</div>
-          <img class="pump__img is-active" src="/assets/ape-3-chair.webp" alt="" data-tier="0" width="869" height="1400" loading="lazy" />
-          <img class="pump__img" src="/assets/ape-1-arms-crossed.webp" alt="" data-tier="1" width="595" height="1400" loading="lazy" />
-          <img class="pump__img" src="/assets/ape-2-jump.webp" alt="" data-tier="2" width="908" height="1400" loading="lazy" />
-          <img class="pump__img" src="/assets/ape-4-point.webp" alt="" data-tier="dump" width="662" height="1400" loading="lazy" />
-        </div>
-      </div>
-    </section>
-
-    <!-- TOKENOMICS -->
-    <section class="tok section" id="tokenomics">
-      <div class="section__head">
-        <span class="section__num">04</span>
-        <h2 class="section__title"><span class="glitch" data-text="TOKENOMICS">TOKENOMICS</span></h2>
-        <span class="section__kicker">simple // fair // apeable</span>
-      </div>
-
-      <div class="tok__grid">
-        <div class="card reveal" data-tilt>
-          <span class="card__label">TOTAL SUPPLY</span>
-          <b class="card__val"><span data-count="1000000000" data-format="short">0</span></b>
-          <span class="card__sub">one billion apes</span>
-          <i class="card__corner"></i>
-        </div>
-        <div class="card reveal" data-tilt>
-          <span class="card__label">TAX</span>
-          <b class="card__val">0 / 0</b>
-          <span class="card__sub">buy / sell — nothing</span>
-          <i class="card__corner"></i>
-        </div>
-        <div class="card reveal" data-tilt>
-          <span class="card__label">LIQUIDITY</span>
-          <b class="card__val">BURNED</b>
-          <span class="card__sub">pump.fun standard</span>
-          <i class="card__corner"></i>
-        </div>
-        <div class="card reveal" data-tilt>
-          <span class="card__label">PRESALE</span>
-          <b class="card__val">NONE</b>
-          <span class="card__sub">fair launch, same entry for everyone</span>
-          <i class="card__corner"></i>
-        </div>
-        <div class="card reveal" data-tilt>
-          <span class="card__label">TEAM ALLOCATION</span>
-          <b class="card__val">0%</b>
-          <span class="card__sub">the ape bought like you</span>
-          <i class="card__corner"></i>
-        </div>
-        <div class="card card--wide reveal" data-tilt>
-          <span class="card__label">CONTRACT</span>
-          <b class="card__val card__val--ca">COMING SOON</b>
-          <span class="card__sub">drops on X first. follow so you don't miss it.</span>
-          <i class="card__corner"></i>
-        </div>
-      </div>
-
-      <div class="tok__donut">
-        <svg viewBox="0 0 200 200" class="donut" id="donut">
-          <circle cx="100" cy="100" r="80" class="donut__track" />
-          <circle cx="100" cy="100" r="80" class="donut__fill" id="donutFill" />
-        </svg>
-        <div class="donut__center"><b>100%</b><span>TO THE APES</span></div>
-      </div>
-    </section>
-
-    <!-- HOW TO APE -->
-    <section class="how section" id="how">
-      <div class="section__head">
-        <span class="section__num">05</span>
-        <h2 class="section__title"><span class="glitch" data-text="HOW TO APE">HOW TO APE</span></h2>
-        <span class="section__kicker">three steps // zero thinking</span>
-      </div>
-
-      <div class="how__grid">
-        <div class="how__steps">
-          <div class="step reveal">
-            <div class="step__n">01</div>
-            <div class="step__body">
-              <h3>GET A WALLET</h3>
-              <p>Phantom or Solflare. Download it, write your seed phrase on paper like a responsible degen.</p>
-            </div>
-            <div class="step__line"></div>
-          </div>
-          <div class="step reveal">
-            <div class="step__n">02</div>
-            <div class="step__body">
-              <h3>LOAD SOL</h3>
-              <p>Buy SOL on any exchange and send it to your wallet. Only what you can afford to ape with.</p>
-            </div>
-            <div class="step__line"></div>
-          </div>
-          <div class="step reveal">
-            <div class="step__n">03</div>
-            <div class="step__body">
-              <h3>SAY “APE”</h3>
-              <p>Paste the contract address into pump.fun or your favourite DEX. Say ape. Send it.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="how__char" id="howChar">
-          <img src="/assets/ape-3-chair.webp" alt="$APE watching the chart" width="869" height="1400" loading="lazy" />
-          <div class="how__ticker">
-            <span class="up">▲ +420.69%</span>
-            <span class="up">▲ +69.42%</span>
-            <span class="up">▲ +1337%</span>
-          </div>
-        </div>
       </div>
     </section>
 

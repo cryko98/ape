@@ -264,16 +264,9 @@
     gsap.from('#loreChar img', { x: -80, opacity: 0, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '#lore', start: 'top 75%', once: true } });
     // stats bars
     ScrollTrigger.create({ trigger: '.stats', start: 'top 85%', once: true, onEnter: () => $('.stats').classList.add('is-on') });
-    // donut
-    gsap.to('#donutFill', { strokeDashoffset: 0, duration: 1.8, ease: 'power3.inOut', scrollTrigger: { trigger: '#donut', start: 'top 85%', once: true } });
-    // how ticker
-    gsap.to('.how__ticker span', { opacity: 1, x: 0, stagger: .2, duration: .6, ease: 'power3.out', scrollTrigger: { trigger: '#howChar', start: 'top 70%', once: true } });
-    gsap.from('#howChar img', { y: 80, opacity: 0, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: '#howChar', start: 'top 80%', once: true } });
     // cta char parallax
     gsap.fromTo('#ctaChar', { y: 160 }, { y: -40, ease: 'none', scrollTrigger: { trigger: '#community', start: 'top bottom', end: 'bottom top', scrub: true } });
     gsap.from('.cta__inner', { scale: .9, opacity: 0, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '#community', start: 'top 70%', once: true } });
-    // lore char parallax
-    if (innerWidth > 900) gsap.to('#howChar', { y: -60, ease: 'none', scrollTrigger: { trigger: '#how', start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
   // ---------- Terminal typewriter ----------
@@ -417,94 +410,6 @@
     panels.forEach(p => ScrollTrigger.create({ trigger: p, containerAnimation: tween, start: 'left 80%', end: 'right 20%', toggleClass: 'is-in' }));
   }
 
-  // ---------- PUMP IT mini game ----------
-  function setupPump() {
-    const btn = $('#pumpBtn'); if (!btn) return;
-    const price = $('#pumpPrice'), chg = $('#pumpChg'), mcap = $('#pumpMcap'), combo = $('#pumpCombo'), ath = $('#pumpAth');
-    const hype = $('#pumpHype'), note = $('#pumpNote'), shout = $('#pumpShout'), section = $('#pump'), charEl = $('#pumpChar');
-    const imgs = $$('.pump__img'); const canvas = $('#pumpChart'); const ctx = canvas.getContext('2d');
-    const SUPPLY = 1e9;
-    let p = 1e-7, clicks = 0, comboN = 1, lastClick = 0, hypeV = 0, hist = [p], tier = '0';
-    let best = 0; try { best = +localStorage.getItem('ape_ath') || 0; } catch (e) {}
-    ath.textContent = best ? '$' + fmtMcap(best) : '$0';
-    const NOTES = ['tap PUMP. nothing can go wrong.', 'the group chat is watching.', 'alon noticed. probably.', 'sell? never heard of it.', 'your mom asked what you\'re doing.', 'this is financial advice (it is not).', 'wen lambo. wen.', 'one more tap. just one.'];
-    const SHOUTS = ['LFG', 'SEND IT', 'APE', 'WAGMI', 'HIGHER', '100X', 'NO SLEEP', 'DEGEN'];
-    function fmtMcap(v) { if (v >= 1e9) return (v / 1e9).toFixed(2) + 'B'; if (v >= 1e6) return (v / 1e6).toFixed(2) + 'M'; if (v >= 1e3) return (v / 1e3).toFixed(1) + 'K'; return v.toFixed(0); }
-    function fmtPrice(v) { return v < 0.001 ? '$' + v.toFixed(9).replace(/0+$/, '') : v < 1 ? '$' + v.toFixed(5) : '$' + v.toFixed(2); }
-    function setTier(t) {
-      if (t === tier) return; tier = t;
-      imgs.forEach(i => i.classList.toggle('is-active', i.dataset.tier === t));
-    }
-    function draw() {
-      const W = canvas.width, H = canvas.height; ctx.clearRect(0, 0, W, H);
-      const n = Math.min(hist.length, 60); const data = hist.slice(-n);
-      const logs = data.map(v => Math.log10(v)); const mn = Math.min(...logs), mx = Math.max(...logs); const rng = Math.max(mx - mn, .3);
-      ctx.strokeStyle = 'rgba(141,255,31,.12)'; ctx.lineWidth = 1;
-      for (let y = 0; y < H; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
-      const step = W / Math.max(n - 1, 1);
-      ctx.beginPath();
-      data.forEach((v, i) => { const x = i * step, y = H - 10 - ((Math.log10(v) - mn) / rng) * (H - 30); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-      const up = data[data.length - 1] >= data[0];
-      ctx.strokeStyle = up ? '#8dff1f' : '#ff3fa4'; ctx.lineWidth = 2.5; ctx.shadowColor = ctx.strokeStyle; ctx.shadowBlur = 12; ctx.stroke(); ctx.shadowBlur = 0;
-      ctx.lineTo((n - 1) * step, H); ctx.lineTo(0, H); ctx.closePath();
-      ctx.fillStyle = up ? 'rgba(141,255,31,.12)' : 'rgba(255,63,164,.12)'; ctx.fill();
-    }
-    function render(delta) {
-      price.textContent = fmtPrice(p);
-      chg.textContent = (delta >= 0 ? '▲ +' : '▼ ') + (delta * 100).toFixed(2) + '%';
-      chg.classList.toggle('is-red', delta < 0);
-      const mc = p * SUPPLY; mcap.textContent = '$' + fmtMcap(mc);
-      if (mc > best) { best = mc; ath.textContent = '$' + fmtMcap(best); try { localStorage.setItem('ape_ath', best); } catch (e) {} }
-      combo.textContent = 'x' + comboN;
-      hype.style.width = Math.min(hypeV, 100) + '%';
-      draw();
-    }
-    function burstAt(el, txt) {
-      const r = el.getBoundingClientRect(); spawnBurst(r.left + r.width / 2, r.top + r.height / 2, txt);
-    }
-    function doShout(t) {
-      shout.textContent = t;
-      gsap.fromTo(shout, { opacity: 1, y: 10, scale: .6, rotate: -6 }, { opacity: 0, y: -60, scale: 1.3, duration: .9, ease: 'power2.out' });
-    }
-    function pump() {
-      const now = Date.now();
-      comboN = (now - lastClick < 450) ? Math.min(comboN + 1, 20) : 1; lastClick = now;
-      clicks++; hypeV = Math.min(100, hypeV + 6 + comboN);
-      let delta;
-      const dumpChance = clicks > 12 ? Math.min(.04 + hypeV / 900, .14) : 0;
-      if (Math.random() < dumpChance) {
-        delta = -(.25 + Math.random() * .4); p *= 1 + delta; hypeV = Math.max(0, hypeV - 40); comboN = 1;
-        setTier('dump'); doShout('WHO SOLD?!'); flash(.25); flashEl.style.background = '#ff3fa4'; setTimeout(() => flashEl.style.background = '', 500);
-        note.textContent = ['jeets. always the jeets.', 'dev sold? no. you panicked.', 'buy the dip. BUY THE DIP.', 'paper hands detected.'][Math.floor(Math.random() * 4)];
-        section.classList.remove('is-shake'); void section.offsetWidth; section.classList.add('is-shake');
-        burstAt(charEl, '▼');
-      } else {
-        delta = (.06 + Math.random() * .12) * (1 + comboN / 6) * (1 + hypeV / 150); p *= 1 + delta;
-        const mc = p * SUPPLY;
-        setTier(mc < 5e3 ? '0' : mc < 1e5 ? '1' : '2');
-        if (comboN % 5 === 0 || Math.random() < .12) doShout(SHOUTS[Math.floor(Math.random() * SHOUTS.length)]);
-        if (clicks % 9 === 0) note.textContent = NOTES[Math.floor(Math.random() * NOTES.length)];
-        if (mc >= 1e6 && mc / (1 + delta) < 1e6) { showToast('🦍 $1M MCAP. the ape is screaming.'); flash(.5); }
-        if (mc >= 1e8 && mc / (1 + delta) < 1e8) { showToast('🚀 $100M. alon is definitely a fan now.'); flash(.7); }
-        if (mc >= 1e9 && mc / (1 + delta) < 1e9) { showToast('👑 $1B. you are the lowcap now.'); flash(.9); }
-        burstAt(btn, comboN > 4 ? '▲▲' : '▲');
-        gsap.fromTo(charEl, { scale: 1.04 }, { scale: 1, duration: .3 });
-      }
-      hist.push(p); if (hist.length > 200) hist.shift();
-      render(delta);
-    }
-    const down = e => { e.preventDefault(); btn.classList.remove('is-down'); void btn.offsetWidth; btn.classList.add('is-down'); pump(); };
-    btn.addEventListener('pointerdown', down);
-    btn.addEventListener('pointerup', () => btn.classList.remove('is-down'));
-    btn.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); pump(); } });
-    // hype decays, price drifts down slowly when idle
-    setInterval(() => {
-      if (Date.now() - lastClick > 900) { hypeV = Math.max(0, hypeV - 3); hype.style.width = hypeV + '%'; }
-      if (Date.now() - lastClick > 2500 && clicks) { p *= .985; hist.push(p); if (hist.length > 200) hist.shift(); render(-.015); if (p * SUPPLY < 5e3) setTier('0'); }
-    }, 400);
-    render(0);
-  }
-
   // ---------- Click burst (anywhere) ----------
   const BURST_GLYPHS = ['$', '▲', '◆', 'APE', '🦍', '+'];
   function spawnBurst(x, y, txt) {
@@ -522,7 +427,7 @@
   }
   function setupBurst() {
     document.addEventListener('click', e => {
-      if (e.target.closest('#pumpBtn, .pose, .nav, a, button')) return;
+      if (e.target.closest('.pose, .nav, a, button')) return;
       spawnBurst(e.clientX, e.clientY);
     });
   }
@@ -549,7 +454,7 @@
     setupLinks(); setupCursor(); setupNav(); setupGlitch();
     setupCandles(); setupParticles(); setupHeroChar();
     setupCounters(); setupReveals(); setupTerminal(); setupPoses(); setupTilt(); setupMarquee();
-    setupCycle(); setupPump(); setupBurst(); setupScramble();
+    setupCycle(); setupBurst(); setupScramble();
     setupLoader();
   });
 })();
