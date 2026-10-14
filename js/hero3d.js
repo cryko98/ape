@@ -1,13 +1,18 @@
 /* ============================================================================
-   $APE — hero 3D: a holographic standee of the ape that spins on its own and
-   can be grabbed and spun by hand (mouse, touch). Built from the transparent
-   character art stacked into a thick slab, so it has depth from every angle,
-   on a neon platform. Falls back to the flat images when WebGL is missing.
+   $APE — hero 3D
+   If /assets/ape.glb exists it is loaded as a real 3D character (textured,
+   optionally rigged + animated), lit with neon, spinning on its own and
+   spinnable by hand (mouse / touch, with inertia). Until the model exists,
+   a holographic standee built from the character art stands in.
 ============================================================================ */
+import * as THREE from 'three';
+import { GLTFLoader } from '/js/vendor/loaders/GLTFLoader.js';
+
 (() => {
   'use strict';
-  const wrap = document.getElementById('heroCharWrap'); if (!wrap || typeof THREE === 'undefined') return;
+  const wrap = document.getElementById('heroCharWrap'); if (!wrap) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MODEL_URL = '/assets/ape.glb';
   const POSES = [
     { src: '/assets/ape-1-arms-crossed.webp', w: 595, h: 1400 },
     { src: '/assets/ape-4-point.webp', w: 662, h: 1400 },
@@ -19,39 +24,22 @@
   catch (e) { return; }
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 0);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
   const canvas = renderer.domElement; canvas.className = 'hero__gl'; canvas.setAttribute('aria-hidden', 'true');
   wrap.appendChild(canvas); wrap.classList.add('is-3d');
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 50); camera.position.set(0, 0.15, 7.2);
   const rig = new THREE.Group(); scene.add(rig);            // what the user spins
-  const slab = new THREE.Group(); rig.add(slab);
+  const subject = new THREE.Group(); rig.add(subject);
 
-  // ---- the character slab -------------------------------------------------
-  const LAYERS = 14, DEPTH = 0.26;
-  const loader = new THREE.TextureLoader();
-  const textures = new Map();
-  function tex(p) { if (!textures.has(p.src)) { const t = loader.load(p.src); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; textures.set(p.src, t); } return textures.get(p.src); }
-  let layers = [];
-  function build(p) {
-    layers.forEach(m => { slab.remove(m); m.geometry.dispose(); m.material.dispose(); }); layers = [];
-    const H = 3.7, W = H * p.w / p.h; const t = tex(p);
-    for (let i = 0; i < LAYERS; i++) {
-      const k = i / (LAYERS - 1);                            // 0 = back, 1 = front
-      const z = (k - .5) * DEPTH;
-      const outer = i === 0 || i === LAYERS - 1;
-      const mat = new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.5, side: THREE.DoubleSide, depthWrite: true,
-        color: outer ? 0xffffff : new THREE.Color().setHSL(0.26, 0.7, 0.05 + Math.abs(k - .5) * 0.12) });
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); m.position.z = z;
-      if (i === 0) m.scale.x = -1;                            // the back shows the mirrored art, so he faces the viewer from behind too
-      slab.add(m); layers.push(m);
-    }
-    // neon rim: a slightly bigger green silhouette behind everything
-    const glow = new THREE.Mesh(new THREE.PlaneGeometry(W * 1.06, H * 1.04), new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.3, color: 0x8dff1f, opacity: 0.55, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
-    glow.position.z = -DEPTH / 2 - 0.02; slab.add(glow); layers.push(glow);
-    slab.position.y = -0.1;
-  }
-  let pose = 0; build(POSES[0]);
+  // ---- lights (only matter for a real model; the standee is unlit) ----------
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(2.5, 4, 4); scene.add(key);
+  const rimL = new THREE.PointLight(0x8dff1f, 18, 12); rimL.position.set(-3, 1.5, -2.5); scene.add(rimL);
+  const rimR = new THREE.PointLight(0xb25cff, 10, 12); rimR.position.set(3, 0.5, -2); scene.add(rimR);
+  const under = new THREE.PointLight(0x8dff1f, 6, 6); under.position.set(0, -2, 0.5); scene.add(under);
 
   // ---- platform ---------------------------------------------------------------
   const plat = new THREE.Group(); plat.position.y = -2.05; rig.add(plat);
@@ -59,23 +47,56 @@
   const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.012, 8, 96), new THREE.MeshBasicMaterial({ color: 0x8dff1f, transparent: true, opacity: 0.4 })); ring2.rotation.x = Math.PI / 2; plat.add(ring2);
   const disc = new THREE.Mesh(new THREE.CircleGeometry(1.25, 64), new THREE.MeshBasicMaterial({ color: 0x8dff1f, transparent: true, opacity: 0.08, side: THREE.DoubleSide })); disc.rotation.x = -Math.PI / 2; plat.add(disc);
   const grid = new THREE.GridHelper(3.2, 12, 0x8dff1f, 0x2f6500); grid.material.transparent = true; grid.material.opacity = 0.35; plat.add(grid);
-  // floating sparks
   const N = 90, pos = new Float32Array(N * 3), spd = new Float32Array(N);
   for (let i = 0; i < N; i++) { pos[i * 3] = (Math.random() - .5) * 3.4; pos[i * 3 + 1] = Math.random() * 4.2 - 2; pos[i * 3 + 2] = (Math.random() - .5) * 3.4; spd[i] = 0.2 + Math.random() * 0.5; }
   const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const sparks = new THREE.Points(pg, new THREE.PointsMaterial({ color: 0x8dff1f, size: 0.045, transparent: true, opacity: 0.8, sizeAttenuation: true })); rig.add(sparks);
+  rig.add(new THREE.Points(pg, new THREE.PointsMaterial({ color: 0x8dff1f, size: 0.045, transparent: true, opacity: 0.8 })));
+
+  // ---- standee fallback (until a real model exists) ---------------------------
+  const LAYERS = 14, DEPTH = 0.26; const loader = new THREE.TextureLoader(); const textures = new Map();
+  function tex(p) { if (!textures.has(p.src)) { const t = loader.load(p.src); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; textures.set(p.src, t); } return textures.get(p.src); }
+  let layers = [], pose = 0, mode = 'standee';
+  function clearSubject() { while (subject.children.length) { const o = subject.children[0]; subject.remove(o); o.traverse && o.traverse(n => { if (n.geometry) n.geometry.dispose(); if (n.material) [].concat(n.material).forEach(m => m.dispose && m.dispose()); }); } layers = []; }
+  function buildStandee(p) {
+    clearSubject();
+    const H = 3.7, W = H * p.w / p.h; const t = tex(p);
+    for (let i = 0; i < LAYERS; i++) {
+      const k = i / (LAYERS - 1); const outer = i === 0 || i === LAYERS - 1;
+      const mat = new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.5, side: THREE.DoubleSide, color: outer ? 0xffffff : new THREE.Color().setHSL(0.26, 0.7, 0.05 + Math.abs(k - .5) * 0.12) });
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(W, H), mat); m.position.z = (k - .5) * DEPTH; if (i === 0) m.scale.x = -1; subject.add(m); layers.push(m);
+    }
+    const glow = new THREE.Mesh(new THREE.PlaneGeometry(W * 1.06, H * 1.04), new THREE.MeshBasicMaterial({ map: t, transparent: true, alphaTest: 0.3, color: 0x8dff1f, opacity: 0.55, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
+    glow.position.z = -DEPTH / 2 - 0.02; subject.add(glow);
+    subject.position.set(0, -0.15, 0); subject.scale.setScalar(1);
+  }
+
+  // ---- real model -------------------------------------------------------------
+  let mixer = null;
+  function fitModel(obj) {
+    const box = new THREE.Box3().setFromObject(obj); const size = box.getSize(new THREE.Vector3()); const center = box.getCenter(new THREE.Vector3());
+    const s = 3.9 / Math.max(size.y, 0.001); obj.scale.setScalar(s);
+    box.setFromObject(obj); box.getCenter(center); const min = box.min;
+    obj.position.x -= center.x; obj.position.z -= center.z; obj.position.y -= min.y; obj.position.y += plat.position.y + 0.02;
+  }
+  function loadModel() {
+    return fetch(MODEL_URL, { method: 'HEAD' }).then(r => { if (!r.ok) throw 0; return new Promise((res, rej) => new GLTFLoader().load(MODEL_URL, res, undefined, rej)); })
+      .then(gltf => {
+        clearSubject(); mode = 'model';
+        const model = gltf.scene; model.traverse(n => { if (n.isMesh) { n.castShadow = false; n.frustumCulled = false; if (n.material && 'envMapIntensity' in n.material) n.material.envMapIntensity = 0.6; } });
+        fitModel(model); subject.add(model); subject.position.set(0, 0, 0); subject.scale.setScalar(1);
+        if (gltf.animations && gltf.animations.length && !reduced) { mixer = new THREE.AnimationMixer(model); mixer.clipAction(gltf.animations[0]).play(); }
+        wrap.classList.add('has-model');
+      }).catch(() => { if (mode !== 'model') buildStandee(POSES[0]); });
+  }
+  buildStandee(POSES[0]); loadModel();
 
   // ---- interaction ----------------------------------------------------------
   let autoSpeed = reduced ? 0 : 0.55, vel = 0, dragging = false, lastX = 0, lastT = 0, idleT = 0, tiltX = 0, tiltTarget = 0, moved = 0;
-  const onDown = e => { dragging = true; moved = 0; lastX = e.clientX; lastT = performance.now(); vel = 0; wrap.classList.add('is-grabbing'); };
-  const onMove = e => { if (!dragging) return; const dx = e.clientX - lastX; const now = performance.now(); const dt = Math.max(now - lastT, 8); vel = dx / dt * 14; rig.rotation.y += dx * 0.012; moved += Math.abs(dx); lastX = e.clientX; lastT = now; idleT = 0; };
-  const onUp = () => { if (!dragging) return; dragging = false; wrap.classList.remove('is-grabbing'); };
-  canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); onDown(e); });
-  canvas.addEventListener('pointermove', onMove);
-  canvas.addEventListener('pointerup', onUp); canvas.addEventListener('pointercancel', onUp);
-  canvas.addEventListener('click', e => { if (moved > 6) { e.stopPropagation(); return; } });
-  // tap (not drag) cycles the pose — main.js listens on the wrap; we only switch the texture
-  wrap.addEventListener('click', () => { if (moved > 6) return; pose = (pose + 1) % POSES.length; build(POSES[pose]); });
+  canvas.addEventListener('pointerdown', e => { canvas.setPointerCapture(e.pointerId); dragging = true; moved = 0; lastX = e.clientX; lastT = performance.now(); vel = 0; wrap.classList.add('is-grabbing'); });
+  canvas.addEventListener('pointermove', e => { if (!dragging) return; const dx = e.clientX - lastX; const now = performance.now(); const dt = Math.max(now - lastT, 8); vel = dx / dt * 14; rig.rotation.y += dx * 0.012; moved += Math.abs(dx); lastX = e.clientX; lastT = now; idleT = 0; });
+  const up = () => { if (!dragging) return; dragging = false; wrap.classList.remove('is-grabbing'); };
+  canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
+  wrap.addEventListener('click', () => { if (moved > 6 || mode === 'model') return; pose = (pose + 1) % POSES.length; buildStandee(POSES[pose]); });
   const hero = document.getElementById('hero');
   if (hero && matchMedia('(hover: hover)').matches) hero.addEventListener('mousemove', e => { const r = hero.getBoundingClientRect(); tiltTarget = ((e.clientY - r.top) / r.height - .5) * -0.35; });
 
@@ -93,7 +114,8 @@
       else { idleT += dt; rig.rotation.y += autoSpeed * dt * Math.min(idleT / 1.2, 1); }
     }
     tiltX += (tiltTarget - tiltX) * 0.06; rig.rotation.x = tiltX * 0.5;
-    slab.position.y = -0.15 + Math.sin(now / 900) * 0.06;
+    if (mode === 'standee') subject.position.y = -0.15 + Math.sin(now / 900) * 0.06;
+    if (mixer) mixer.update(dt);
     ring.rotation.z += dt * 0.6; ring2.rotation.z -= dt * 0.3;
     const a = pg.attributes.position.array; for (let i = 0; i < N; i++) { a[i * 3 + 1] += spd[i] * dt; if (a[i * 3 + 1] > 2.3) a[i * 3 + 1] = -2; } pg.attributes.position.needsUpdate = true;
     renderer.render(scene, camera);
