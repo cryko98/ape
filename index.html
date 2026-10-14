@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$APE — Ape Into Lowcaps</title>
+  <meta name="description" content="$APE on Solana. When pump.fun went live they said: ape into lowcaps. He listened. He never stopped. Degenerate gambler. Neon prophet. Send it." />
+  <meta name="theme-color" content="#06090a" />
+
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="$APE — Ape Into Lowcaps" />
+  <meta property="og:description" content="Degenerate gambler. Neon prophet. Solana memecoin. CA: coming soon." />
+  <meta property="og:image" content="/og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="$APE — Ape Into Lowcaps" />
+  <meta name="twitter:image" content="/og.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <div class="loader__logo"><img src="/assets/logo.webp" alt="" /></div>
+      <div class="loader__text" data-text="INITIALIZING DEGEN MODE">INITIALIZING DEGEN MODE</div>
+      <div class="loader__bar"><span id="loaderBar"></span></div>
+      <div class="loader__pct"><span id="loaderPct">0</span>%</div>
+    </div>
+  </div>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"><span class="cursor__dot"></span><span class="cursor__ring"></span><span class="cursor__label" id="cursorLabel"></span></div>
+
+  <!-- OVERLAYS -->
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="flash" id="flash" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#top" data-cursor="HOME">
+      <span class="nav__logo"><img src="/assets/logo.webp" alt="$APE logo" width="44" height="44" /></span>
+      <span class="nav__name">$APE</span>
+      <span class="nav__tag">// SOLANA</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#lore" data-cursor="LORE"><span>01</span> LORE</a>
+      <a href="#character" data-cursor="DEGEN"><span>02</span> THE APE</a>
+      <a href="#tokenomics" data-cursor="NUMBERS"><span>03</span> TOKENOMICS</a>
+      <a href="#how" data-cursor="APE IN"><span>04</span> HOW TO APE</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--ghost btn--x" id="xLinkNav" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW" aria-label="X / Twitter">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <button class="btn btn--neon" id="buyBtn" data-cursor="SOON">
+        <span class="btn__txt">BUY $APE</span>
+        <span class="btn__glitch" aria-hidden="true">BUY $APE</span>
+      </button>
+    </div>
+    <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <canvas class="hero__candles" id="candles"></canvas>
+      <canvas class="hero__particles" id="particles"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__orb hero__orb--1" aria-hidden="true"></div>
+      <div class="hero__orb hero__orb--2" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <div class="hero__eyebrow"><span class="blink">●</span> LIVE ON SOLANA &nbsp;//&nbsp; LOWCAP PROTOCOL v0.1</div>
+          <h1 class="hero__title">
+            <span class="hero__line"><span class="glitch" data-text="APE">APE</span></span>
+            <span class="hero__line"><span class="glitch glitch--alt" data-text="INTO">INTO</span></span>
+            <span class="hero__line hero__line--accent"><span class="glitch" data-text="LOWCAPS.">LOWCAPS.</span></span>
+          </h1>
+          <p class="hero__sub">
+            When pump.fun went live, the first words ever posted were <em>“ape into lowcaps.”</em>
+            He read it. He never recovered. Now he just says <strong>ape</strong> and sends it.
+          </p>
+
+          <div class="ca" id="caBox" data-cursor="SOON">
+            <span class="ca__label">CA</span>
+            <span class="ca__value" id="caValue">COMING SOON</span>
+            <span class="ca__dots"><i></i><i></i><i></i></span>
+          </div>
+
+          <div class="hero__actions">
+            <button class="btn btn--neon btn--lg" id="buyBtn2" data-cursor="SOON">
+              <span class="btn__txt">APE IN</span>
+              <span class="btn__glitch" aria-hidden="true">APE IN</span>
+            </button>
+            <a class="btn btn--outline btn--lg" id="xLinkHero" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span>FOLLOW THE APE</span>
+            </a>
+          </div>
+
+          <div class="hero__stats">
+            <div><b data-count="100">0</b><span>x MINDSET</span></div>
+            <div><b data-count="0">0</b><span>% TAX</span></div>
+            <div><b data-count="1">0</b><span>B SUPPLY</span></div>
+          </div>
+        </div>
+
+        <div class="hero__char" id="heroChar">
+          <div class="hero__ring" aria-hidden="true"></div>
+          <div class="hero__ring hero__ring--2" aria-hidden="true"></div>
+          <div class="hero__charwrap" id="heroCharWrap" data-cursor="CLICK ME">
+            <img class="hero__img is-active" src="/assets/ape-1-arms-crossed.webp" alt="$APE — arms crossed" data-pose="1" width="595" height="1400" fetchpriority="high" />
+            <img class="hero__img" src="/assets/ape-4-point.webp" alt="$APE pointing at you" data-pose="4" width="662" height="1400" />
+            <img class="hero__img" src="/assets/ape-5-walk.webp" alt="$APE walking" data-pose="5" width="548" height="1400" />
+            <img class="hero__img" src="/assets/ape-2-jump.webp" alt="$APE jumping" data-pose="2" width="908" height="1400" />
+          </div>
+          <div class="hero__tag hero__tag--1"><span>NAME</span>APE</div>
+          <div class="hero__tag hero__tag--2"><span>CLASS</span>DEGENERATE GAMBLER</div>
+          <div class="hero__tag hero__tag--3"><span>RISK</span>MAXIMUM</div>
+          <div class="hero__hint">tap the ape</div>
+        </div>
+      </div>
+
+      <div class="hero__scroll"><span></span>SCROLL</div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee">
+        <span>APE INTO LOWCAPS</span><i>◆</i><span>SEND IT</span><i>◆</i><span>$APE</span><i>◆</i><span>NO SLEEP ONLY CHARTS</span><i>◆</i><span>WAGMI</span><i>◆</i><span>APE INTO LOWCAPS</span><i>◆</i><span>SEND IT</span><i>◆</i><span>$APE</span><i>◆</i><span>NO SLEEP ONLY CHARTS</span><i>◆</i><span>WAGMI</span><i>◆</i>
+      </div>
+    </div>
+
+    <!-- LORE -->
+    <section class="lore section" id="lore">
+      <div class="section__head">
+        <span class="section__num">01</span>
+        <h2 class="section__title"><span class="glitch" data-text="THE LORE">THE LORE</span></h2>
+        <span class="section__kicker">origin story // still being written</span>
+      </div>
+
+      <div class="lore__grid">
+        <div class="lore__char" id="loreChar">
+          <img src="/assets/ape-4-point.webp" alt="$APE pointing at you" width="662" height="1400" loading="lazy" />
+          <div class="lore__bubble">YOU. APE. NOW.</div>
+        </div>
+
+        <div class="lore__text">
+          <div class="terminal" id="terminal">
+            <div class="terminal__bar"><i></i><i></i><i></i><span>pump.fun — launch_post.txt</span></div>
+            <pre class="terminal__body" id="termBody"></pre>
+          </div>
+
+          <div class="lore__blocks">
+            <div class="lore__block reveal">
+              <h3>Day Zero</h3>
+              <p>When pump.fun went live, the launch post said three words: <b>ape into lowcaps</b>. Everybody scrolled past. One ape didn't.</p>
+            </div>
+            <div class="lore__block reveal">
+              <h3>The Habit</h3>
+              <p>He says <b>“ape”</b> and he sends it. No chart. No roadmap. No sleep. Just pure, unfiltered, degenerate conviction. Every lowcap. Every time.</p>
+            </div>
+            <div class="lore__block reveal">
+              <h3>The Rumor</h3>
+              <p>They say Alon is a fan of apes. We don't make the rules. We just <b>ape</b>.</p>
+            </div>
+            <div class="lore__block lore__block--note reveal">
+              <p>▸ Lore chapter 2 loading… the community writes the rest.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHARACTER / INTERACTIVE -->
+    <section class="char section" id="character">
+      <div class="section__head">
+        <span class="section__num">02</span>
+        <h2 class="section__title"><span class="glitch" data-text="THE DEGEN">THE DEGEN</span></h2>
+        <span class="section__kicker">pick a mood // he has five</span>
+      </div>
+
+      <div class="char__stage">
+        <div class="char__bg" aria-hidden="true"><span>APE</span></div>
+        <div class="char__viewer" id="charViewer">
+          <div class="char__glow" aria-hidden="true"></div>
+          <img class="char__img is-active" src="/assets/ape-1-arms-crossed.webp" alt="The Boss" data-pose="1" width="595" height="1400" loading="lazy" />
+          <img class="char__img" src="/assets/ape-2-jump.webp" alt="Send It" data-pose="2" width="908" height="1400" loading="lazy" />
+          <img class="char__img" src="/assets/ape-3-chair.webp" alt="Chart Watching" data-pose="3" width="869" height="1400" loading="lazy" />
+          <img class="char__img" src="/assets/ape-4-point.webp" alt="You. Ape. Now." data-pose="4" width="662" height="1400" loading="lazy" />
+          <img class="char__img" src="/assets/ape-5-walk.webp" alt="On The Way To 100x" data-pose="5" width="548" height="1400" loading="lazy" />
+          <div class="char__scan" aria-hidden="true"></div>
+        </div>
+
+        <div class="char__panel">
+          <div class="char__poses" id="poses">
+            <button class="pose is-active" data-pose="1" data-cursor="SELECT"><span class="pose__n">01</span><span class="pose__t">THE BOSS</span><span class="pose__d">arms crossed. already up.</span></button>
+            <button class="pose" data-pose="2" data-cursor="SELECT"><span class="pose__n">02</span><span class="pose__t">SEND IT</span><span class="pose__d">green candle detected.</span></button>
+            <button class="pose" data-pose="3" data-cursor="SELECT"><span class="pose__n">03</span><span class="pose__t">CHART WATCH</span><span class="pose__d">4am. still watching.</span></button>
+            <button class="pose" data-pose="4" data-cursor="SELECT"><span class="pose__n">04</span><span class="pose__t">YOU. APE. NOW.</span><span class="pose__d">this is not advice.</span></button>
+            <button class="pose" data-pose="5" data-cursor="SELECT"><span class="pose__n">05</span><span class="pose__t">ON THE WAY</span><span class="pose__d">to the next lowcap.</span></button>
+          </div>
+
+          <div class="stats">
+            <div class="stat"><span>RISK TOLERANCE</span><div class="stat__bar"><i style="--v:100%"></i></div><b>MAX</b></div>
+            <div class="stat"><span>HOURS SLEPT</span><div class="stat__bar"><i style="--v:3%"></i></div><b>0.2</b></div>
+            <div class="stat"><span>LOWCAPS APED</span><div class="stat__bar"><i style="--v:97%"></i></div><b>∞</b></div>
+            <div class="stat"><span>CHART IQ</span><div class="stat__bar"><i style="--v:12%"></i></div><b>LOW</b></div>
+            <div class="stat"><span>CONVICTION</span><div class="stat__bar"><i style="--v:100%"></i></div><b>UNHINGED</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOKENOMICS -->
+    <section class="tok section" id="tokenomics">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title"><span class="glitch" data-text="TOKENOMICS">TOKENOMICS</span></h2>
+        <span class="section__kicker">simple // fair // apeable</span>
+      </div>
+
+      <div class="tok__grid">
+        <div class="card reveal" data-tilt>
+          <span class="card__label">TOTAL SUPPLY</span>
+          <b class="card__val"><span data-count="1000000000" data-format="short">0</span></b>
+          <span class="card__sub">one billion apes</span>
+          <i class="card__corner"></i>
+        </div>
+        <div class="card reveal" data-tilt>
+          <span class="card__label">TAX</span>
+          <b class="card__val">0 / 0</b>
+          <span class="card__sub">buy / sell — nothing</span>
+          <i class="card__corner"></i>
+        </div>
+        <div class="card reveal" data-tilt>
+          <span class="card__label">LIQUIDITY</span>
+          <b class="card__val">BURNED</b>
+          <span class="card__sub">pump.fun standard</span>
+          <i class="card__corner"></i>
+        </div>
+        <div class="card reveal" data-tilt>
+          <span class="card__label">PRESALE</span>
+          <b class="card__val">NONE</b>
+          <span class="card__sub">fair launch, same entry for everyone</span>
+          <i class="card__corner"></i>
+        </div>
+        <div class="card reveal" data-tilt>
+          <span class="card__label">TEAM ALLOCATION</span>
+          <b class="card__val">0%</b>
+          <span class="card__sub">the ape bought like you</span>
+          <i class="card__corner"></i>
+        </div>
+        <div class="card card--wide reveal" data-tilt>
+          <span class="card__label">CONTRACT</span>
+          <b class="card__val card__val--ca">COMING SOON</b>
+          <span class="card__sub">drops on X first. follow so you don't miss it.</span>
+          <i class="card__corner"></i>
+        </div>
+      </div>
+
+      <div class="tok__donut">
+        <svg viewBox="0 0 200 200" class="donut" id="donut">
+          <circle cx="100" cy="100" r="80" class="donut__track" />
+          <circle cx="100" cy="100" r="80" class="donut__fill" id="donutFill" />
+        </svg>
+        <div class="donut__center"><b>100%</b><span>TO THE APES</span></div>
+      </div>
+    </section>
+
+    <!-- HOW TO APE -->
+    <section class="how section" id="how">
+      <div class="section__head">
+        <span class="section__num">04</span>
+        <h2 class="section__title"><span class="glitch" data-text="HOW TO APE">HOW TO APE</span></h2>
+        <span class="section__kicker">three steps // zero thinking</span>
+      </div>
+
+      <div class="how__grid">
+        <div class="how__steps">
+          <div class="step reveal">
+            <div class="step__n">01</div>
+            <div class="step__body">
+              <h3>GET A WALLET</h3>
+              <p>Phantom or Solflare. Download it, write your seed phrase on paper like a responsible degen.</p>
+            </div>
+            <div class="step__line"></div>
+          </div>
+          <div class="step reveal">
+            <div class="step__n">02</div>
+            <div class="step__body">
+              <h3>LOAD SOL</h3>
+              <p>Buy SOL on any exchange and send it to your wallet. Only what you can afford to ape with.</p>
+            </div>
+            <div class="step__line"></div>
+          </div>
+          <div class="step reveal">
+            <div class="step__n">03</div>
+            <div class="step__body">
+              <h3>SAY “APE”</h3>
+              <p>Paste the contract address into pump.fun or your favourite DEX. Say ape. Send it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="how__char" id="howChar">
+          <img src="/assets/ape-3-chair.webp" alt="$APE watching the chart" width="869" height="1400" loading="lazy" />
+          <div class="how__ticker">
+            <span class="up">▲ +420.69%</span>
+            <span class="up">▲ +69.42%</span>
+            <span class="up">▲ +1337%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY CTA -->
+    <section class="cta section" id="community">
+      <div class="cta__bg" aria-hidden="true"></div>
+      <div class="cta__char" id="ctaChar">
+        <img src="/assets/ape-2-jump.webp" alt="$APE celebrating" width="908" height="1400" loading="lazy" />
+      </div>
+      <div class="cta__inner">
+        <h2 class="cta__title">
+          <span class="glitch" data-text="JOIN THE">JOIN THE</span><br />
+          <span class="glitch glitch--alt cta__big" data-text="APE ARMY">APE ARMY</span>
+        </h2>
+        <p>Everything drops on X first. CA, memes, chaos. Be early. Be ape.</p>
+        <a class="btn btn--neon btn--xl" id="xLinkCta" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span class="btn__txt">FOLLOW ON X</span>
+          <span class="btn__glitch" aria-hidden="true">FOLLOW ON X</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <img src="/assets/logo.webp" alt="" width="40" height="40" />
+        <span>$APE</span>
+      </div>
+      <p class="footer__disc">$APE is a memecoin with no intrinsic value and no expectation of financial return. It exists for entertainment. Nothing here is financial advice. Only ape what you can afford to lose.</p>
+      <div class="footer__meta">
+        <span>© 2026 $APE</span>
+        <span>BUILT ON SOLANA</span>
+        <a id="xLinkFooter" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW">X ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">CA drops soon — follow X so you don't miss it 🦍</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="/js/main.js" defer></script>
+</body>
+</html>
