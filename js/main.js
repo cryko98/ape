@@ -232,7 +232,7 @@
       hero.addEventListener('mousemove', e => {
         const r = hero.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        gsap.to(wrap, { rotateY: x * 22, rotateX: -y * 14, x: x * 30, duration: .8, ease: 'power3.out' });
+        if (!wrap.classList.contains('is-3d')) gsap.to(wrap, { rotateY: x * 22, rotateX: -y * 14, x: x * 30, duration: .8, ease: 'power3.out' });
         gsap.to('.hero__orb--1', { x: x * -80, y: y * -60, duration: 1.2 });
         gsap.to('.hero__orb--2', { x: x * 60, y: y * 40, duration: 1.2 });
         gsap.to('.hero__tag', { x: x * -18, y: y * -12, duration: 1 });
