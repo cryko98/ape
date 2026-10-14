@@ -55,8 +55,9 @@
     <nav class="nav__links">
       <a href="#lore" data-cursor="LORE"><span>01</span> LORE</a>
       <a href="#character" data-cursor="DEGEN"><span>02</span> THE APE</a>
-      <a href="#tokenomics" data-cursor="NUMBERS"><span>03</span> TOKENOMICS</a>
-      <a href="#how" data-cursor="APE IN"><span>04</span> HOW TO APE</a>
+      <a href="#pump" data-cursor="PLAY"><span>03</span> PUMP IT</a>
+      <a href="#tokenomics" data-cursor="NUMBERS"><span>04</span> TOKENOMICS</a>
+      <a href="#how" data-cursor="APE IN"><span>05</span> HOW TO APE</a>
     </nav>
     <div class="nav__cta">
       <a class="btn btn--ghost btn--x" id="xLinkNav" href="#" target="_blank" rel="noopener" data-cursor="FOLLOW" aria-label="X / Twitter">
@@ -224,10 +225,62 @@
       </div>
     </section>
 
+    <!-- THE CYCLE (pinned horizontal) -->
+    <section class="cycle" id="cycle">
+      <div class="cycle__pin" id="cyclePin">
+        <div class="cycle__head">
+          <span class="section__num">02.5</span>
+          <h2 class="section__title"><span class="glitch" data-text="THE CYCLE">THE CYCLE</span></h2>
+          <span class="section__kicker">scroll → every degen's life, on loop</span>
+        </div>
+        <div class="cycle__track" id="cycleTrack"></div>
+        <div class="cycle__progress"><i id="cycleBar"></i></div>
+      </div>
+    </section>
+
+    <!-- PUMP IT (mini game) -->
+    <section class="pump section" id="pump">
+      <div class="section__head">
+        <span class="section__num">03</span>
+        <h2 class="section__title"><span class="glitch" data-text="PUMP IT">PUMP IT</span></h2>
+        <span class="section__kicker">tap. send. don't stop. he reacts.</span>
+      </div>
+
+      <div class="pump__grid">
+        <div class="pump__panel">
+          <div class="pump__price">
+            <span class="pump__label">$APE / USD</span>
+            <b id="pumpPrice">$0.0000001</b>
+            <span class="pump__chg" id="pumpChg">▲ 0.00%</span>
+          </div>
+          <div class="pump__row">
+            <div class="pump__stat"><span>MCAP</span><b id="pumpMcap">$100</b></div>
+            <div class="pump__stat"><span>COMBO</span><b id="pumpCombo">x1</b></div>
+            <div class="pump__stat"><span>ATH</span><b id="pumpAth">$0</b></div>
+          </div>
+          <canvas class="pump__chart" id="pumpChart" width="600" height="180"></canvas>
+          <div class="pump__hype"><span>HYPE</span><div class="pump__hypebar"><i id="pumpHype"></i></div></div>
+          <button class="pumpbtn" id="pumpBtn" data-cursor="SEND IT">
+            <span class="pumpbtn__ring"></span>
+            <span class="pumpbtn__txt">PUMP</span>
+          </button>
+          <p class="pump__note" id="pumpNote">tap PUMP. nothing can go wrong.</p>
+        </div>
+
+        <div class="pump__char" id="pumpChar">
+          <div class="pump__shout" id="pumpShout">LFG</div>
+          <img class="pump__img is-active" src="/assets/ape-3-chair.webp" alt="" data-tier="0" width="869" height="1400" loading="lazy" />
+          <img class="pump__img" src="/assets/ape-1-arms-crossed.webp" alt="" data-tier="1" width="595" height="1400" loading="lazy" />
+          <img class="pump__img" src="/assets/ape-2-jump.webp" alt="" data-tier="2" width="908" height="1400" loading="lazy" />
+          <img class="pump__img" src="/assets/ape-4-point.webp" alt="" data-tier="dump" width="662" height="1400" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
     <!-- TOKENOMICS -->
     <section class="tok section" id="tokenomics">
       <div class="section__head">
-        <span class="section__num">03</span>
+        <span class="section__num">04</span>
         <h2 class="section__title"><span class="glitch" data-text="TOKENOMICS">TOKENOMICS</span></h2>
         <span class="section__kicker">simple // fair // apeable</span>
       </div>
@@ -283,7 +336,7 @@
     <!-- HOW TO APE -->
     <section class="how section" id="how">
       <div class="section__head">
-        <span class="section__num">04</span>
+        <span class="section__num">05</span>
         <h2 class="section__title"><span class="glitch" data-text="HOW TO APE">HOW TO APE</span></h2>
         <span class="section__kicker">three steps // zero thinking</span>
       </div>
