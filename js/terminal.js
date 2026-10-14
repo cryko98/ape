@@ -268,6 +268,8 @@
     if (buys.length) { const tx = (S.book.txs || []).find(t => t.type === 'buy'); target = tx && tx.mint; }
     else if (!S.selected && S.book.positions.length) target = S.book.positions.slice().sort((a, b) => b.opened - a.opened)[0].mint;
     else if (!S.selected && S.book.txs && S.book.txs.length) target = S.book.txs[0].mint;
+    else if (!S.selected && S.book.watch && S.book.watch.length) target = S.book.watch[0].mint;
+    else if (!S.selected) target = currentFeed()[0];
     if (target && target !== S.selected && S.coins.get(target)) select(target, false);
   }
   async function pollShared() {
