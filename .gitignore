@@ -5,3 +5,6 @@ Thumbs.db
 
 .vercel
 .env*
+
+# source video kept locally, not part of the site
+3d.MP4

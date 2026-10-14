@@ -515,10 +515,3 @@ body.is-og .hero__inner { align-items: center; }
 /* reserve space for lazily loaded character art so the pinned cycle never drifts */
 .lore__char { min-height: 60vh; }
 .char__viewer { min-height: min(80vh, 780px); }
-
-/* ---------- hero 3D standee ---------- */
-.hero__charwrap.is-3d { filter: none; cursor: grab; touch-action: pan-y; }
-.hero__charwrap.is-3d.is-grabbing { cursor: grabbing; }
-.hero__charwrap.is-3d .hero__img { opacity: 0 !important; animation: none !important; pointer-events: none; }
-.hero__gl { position: absolute; inset: 0; width: 100% !important; height: 100% !important; display: block; filter: drop-shadow(0 0 28px rgba(141,255,31,.35)); }
-.hero__charwrap.is-3d[data-cursor]::after { content: ''; }
